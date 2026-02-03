@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiMitra - Farmer Assistance System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2d5016;
+            --secondary-green: #4a7c2c;
+            --accent-yellow: #f4c430;
+            --accent-orange: #ff8c42;
+            --bg-cream: #faf8f3;
+            --text-dark: #1a1a1a;
+            --card-bg: #ffffff;
+            --shadow: rgba(45, 80, 22, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(74, 124, 44, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(244, 196, 48, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo h1 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 0.5rem;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--accent-yellow);
+            color: var(--primary-green);
+            border-color: var(--accent-yellow);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px var(--shadow);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: cardFadeIn 0.6s ease-out both;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px var(--shadow);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: var(--primary-green);
+            transform: rotate(90deg);
+        }
+
+        .modal-content h2 {
+            font-family: 'Baloo 2', cursive;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-green);
+            box-shadow: 0 0 0 4px rgba(74, 124, 44, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--secondary-green), var(--primary-green));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Results Section */
+        .result-section {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e8f5e9 100%);
+            border-radius: 15px;
+            border-left: 5px solid var(--secondary-green);
+            animation: resultSlideIn 0.5s ease-out;
+        }
+
+        @keyframes resultSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .result-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .recommendation-item {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-yellow);
+        }
+
+        .recommendation-item h4 {
+            color: var(--secondary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .weather-day {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .weather-day:hover {
+            transform: translateY(-5px);
+        }
+
+        .weather-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .weather-temp {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* Disease Detection */
+        .upload-zone {
+            border: 3px dashed #ddd;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--secondary-green);
+            background: rgba(74, 124, 44, 0.05);
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--accent-yellow);
+            background: rgba(244, 196, 48, 0.1);
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .preview-image.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-green);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🌾</span>
+                <div>
+                    <h1 data-lang="app-title">KrishiMitra</h1>
+                    <p style="font-size: 0.9rem; opacity: 0.9;" data-lang="app-subtitle">Your Farming Companion</p>
+                </div>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang-code="en">English</button>
+                <button class="lang-btn" data-lang-code="hi">हिंदी</button>
+                <button class="lang-btn" data-lang-code="mr">मराठी</button>
+                <button class="lang-btn" data-lang-code="ta">தமிழ்</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="features-grid">
+            <!-- Crop Recommendation -->
+            <div class="feature-card" data-feature="crop">
+                <span class="feature-icon">🌱</span>
+                <h3 data-lang="crop-title">Crop Recommendation</h3>
+                <p data-lang="crop-desc">Get personalized crop suggestions based on soil type, climate, and season</p>
+            </div>
+
+            <!-- Weather Updates -->
+            <div class="feature-card" data-feature="weather">
+                <span class="feature-icon">🌤️</span>
+                <h3 data-lang="weather-title">Weather Forecast</h3>
+                <p data-lang="weather-desc">7-day weather predictions to plan your farming activities</p>
+            </div>
+
+            <!-- Fertilizer Guide -->
+            <div class="feature-card" data-feature="fertilizer">
+                <span class="feature-icon">🧪</span>
+                <h3 data-lang="fertilizer-title">Fertilizer Guide</h3>
+                <p data-lang="fertilizer-desc">Optimal fertilizer recommendations for your crops</p>
+            </div>
+
+            <!-- Disease Detection -->
+            <div class="feature-card" data-feature="disease">
+                <span class="feature-icon">🔬</span>
+                <h3 data-lang="disease-title">Disease Detection</h3>
+                <p data-lang="disease-desc">Upload crop images to identify diseases and get treatment advice</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crop Recommendation Modal -->
+    <div id="cropModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cropModal')">&times;</span>
+            <h2 data-lang="crop-modal-title">🌱 Crop Recommendation</h2>
+            
+            <form id="cropForm">
+                <div class="form-group">
+                    <label data-lang="soil-type">Soil Type</label>
+                    <select id="soilType" required>
+                        <option value="">Select Soil Type</option>
+                        <option value="clay">Clay</option>
+                        <option value="sandy">Sandy</option>
+                        <option value="loamy">Loamy</option>
+                        <option value="black">Black Soil</option>
+                        <option value="red">Red Soil</option>
+                        <option value="alluvial">Alluvial</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-lang="season">Season</label>
+                    <select id="season" required>
+                        <option value="">Select Season</option>
+                        <option value="kharif">Kharif (Monsoon)</option>
+                        <option value="rabi">Rabi (Winter)</option>
+                        <option value="zaid">Zaid (Summer)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-lang="rainfall">Average Rainfall (mm)</label>
+                    <input type="number" id="rainfall" min="0" placeholder="e.g., 800" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-lang="temperature">Temperature (°C)</label>
+                    <input type="number" id="temperature" min="0" placeholder="e.g., 28" required>
+                </div>
+
+                <button type="submit" class="btn" data-lang="get-recommendations">Get Recommendations</button>
+            </form>
+
+            <div id="cropResults" class="result-section"></div>
+        </div>
+    </div>
+
+    <!-- Weather Modal -->
+    <div id="weatherModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('weatherModal')">&times;</span>
+            <h2 data-lang="weather-modal-title">🌤️ Weather Forecast</h2>
+            
+            <form id="weatherForm">
+                <div class="form-group">
+                    <label data-lang="location">Your Location</label>
+                    <input type="text" id="location" placeholder="Enter city or district" required>
+                </div>
+                <button type="submit" class="btn" data-lang="get-weather">Get Weather Forecast</button>
+            </form>
+
+            <div class="loading" id="weatherLoading">
+                <div class="spinner"></div>
+                <p data-lang="loading">Loading weather data...</p>
+            </div>
+
+            <div id="weatherResults" class="result-section"></div>
+        </div>
+    </div>
+
+    <!-- Fertilizer Modal -->
+    <div id="fertilizerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('fertilizerModal')">&times;</span>
+            <h2 data-lang="fertilizer-modal-title">🧪 Fertilizer Guide</h2>
+            
+            <form id="fertilizerForm">
+                <div class="form-group">
+                    <label data-lang="crop-type">Crop Type</label>
+                    <select id="cropType" required>
+                        <option value="">Select Crop</option>
+                        <option value="rice">Rice</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="sugarcane">Sugarcane</option>
+                        <option value="maize">Maize</option>
+                        <option value="pulses">Pulses</option>
+                        <option value="vegetables">Vegetables</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-lang="growth-stage">Growth Stage</label>
+                    <select id="growthStage" required>
+                        <option value="">Select Stage</option>
+                        <option value="planting">Planting/Sowing</option>
+                        <option value="vegetative">Vegetative Growth</option>
+                        <option value="flowering">Flowering</option>
+                        <option value="fruiting">Fruiting/Grain Formation</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn" data-lang="get-fertilizer">Get Fertilizer Advice</button>
+            </form>
+
+            <div id="fertilizerResults" class="result-section"></div>
+        </div>
+    </div>
+
+    <!-- Disease Detection Modal -->
+    <div id="diseaseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('diseaseModal')">&times;</span>
+            <h2 data-lang="disease-modal-title">🔬 Disease Detection</h2>
+            
+            <form id="diseaseForm">
+                <div class="upload-zone" id="uploadZone">
+                    <span style="font-size: 3rem;">📸</span>
+                    <p data-lang="upload-text">Click to upload or drag & drop crop image</p>
+                    <input type="file" id="diseaseImage" accept="image/*" style="display: none;" required>
+                </div>
+                <img id="previewImage" class="preview-image" alt="Preview">
+                
+                <div class="form-group">
+                    <label data-lang="crop-name">Crop Name (Optional)</label>
+                    <input type="text" id="cropName" placeholder="e.g., Tomato, Rice, Wheat">
+                </div>
+
+                <button type="submit" class="btn" data-lang="analyze-disease">Analyze Disease</button>
+            </form>
+
+            <div class="loading" id="diseaseLoading">
+                <div class="spinner"></div>
+                <p data-lang="analyzing">Analyzing image...</p>
+            </div>
+
+            <div id="diseaseResults" class="result-section"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p data-lang="footer-text">🌾 KrishiMitra - Empowering Farmers with Technology</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;" data-lang="footer-year">© 2026 All Rights Reserved</p>
+        <p data-lang="footer-text"> Developed By Jayant & Team</p>
+    </footer>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                'app-title': 'KrishiMitra',
+                'app-subtitle': 'Your Farming Companion',
+                'crop-title': 'Crop Recommendation',
+                'crop-desc': 'Get personalized crop suggestions based on soil type, climate, and season',
+                'weather-title': 'Weather Forecast',
+                'weather-desc': '7-day weather predictions to plan your farming activities',
+                'fertilizer-title': 'Fertilizer Guide',
+                'fertilizer-desc': 'Optimal fertilizer recommendations for your crops',
+                'disease-title': 'Disease Detection',
+                'disease-desc': 'Upload crop images to identify diseases and get treatment advice',
+                'crop-modal-title': '🌱 Crop Recommendation',
+                'soil-type': 'Soil Type',
+                'season': 'Season',
+                'rainfall': 'Average Rainfall (mm)',
+                'temperature': 'Temperature (°C)',
+                'get-recommendations': 'Get Recommendations',
+                'weather-modal-title': '🌤️ Weather Forecast',
+                'location': 'Your Location',
+                'get-weather': 'Get Weather Forecast',
+                'fertilizer-modal-title': '🧪 Fertilizer Guide',
+                'crop-type': 'Crop Type',
+                'growth-stage': 'Growth Stage',
+                'get-fertilizer': 'Get Fertilizer Advice',
+                'disease-modal-title': '🔬 Disease Detection',
+                'upload-text': 'Click to upload or drag & drop crop image',
+                'crop-name': 'Crop Name (Optional)',
+                'analyze-disease': 'Analyze Disease',
+                'loading': 'Loading weather data...',
+                'analyzing': 'Analyzing image...',
+                'footer-text': '🌾 KrishiMitra - Empowering Farmers with Technology',
+                'footer-year': '© 2026 All Rights Reserved'
+            },
+            hi: {
+                'app-title': 'कृषिमित्र',
+                'app-subtitle': 'आपका खेती साथी',
+                'crop-title': 'फसल सिफारिश',
+                'crop-desc': 'मिट्टी, जलवायु और मौसम के आधार पर फसल सुझाव प्राप्त करें',
+                'weather-title': 'मौसम पूर्वानुमान',
+                'weather-desc': '7 दिन का मौसम पूर्वानुमान',
+                'fertilizer-title': 'उर्वरक गाइड',
+                'fertilizer-desc': 'आपकी फसलों के लिए उर्वरक सिफारिश',
+                'disease-title': 'रोग पहचान',
+                'disease-desc': 'फसल रोगों की पहचान और उपचार सलाह',
+                'crop-modal-title': '🌱 फसल सिफारिश',
+                'soil-type': 'मिट्टी का प्रकार',
+                'season': 'मौसम',
+                'rainfall': 'औसत वर्षा (मिमी)',
+                'temperature': 'तापमान (°C)',
+                'get-recommendations': 'सिफारिश प्राप्त करें',
+                'weather-modal-title': '🌤️ मौसम पूर्वानुमान',
+                'location': 'आपका स्थान',
+                'get-weather': 'मौसम पूर्वानुमान प्राप्त करें',
+                'fertilizer-modal-title': '🧪 उर्वरक गाइड',
+                'crop-type': 'फसल का प्रकार',
+                'growth-stage': 'विकास चरण',
+                'get-fertilizer': 'उर्वरक सलाह प्राप्त करें',
+                'disease-modal-title': '🔬 रोग पहचान',
+                'upload-text': 'फसल की तस्वीर अपलोड करें',
+                'crop-name': 'फसल का नाम (वैकल्पिक)',
+                'analyze-disease': 'रोग विश्लेषण करें',
+                'loading': 'मौसम डेटा लोड हो रहा है...',
+                'analyzing': 'छवि का विश्लेषण हो रहा है...',
+                'footer-text': '🌾 कृषिमित्र - प्रौद्योगिकी से किसानों को सशक्त बनाना',
+                'footer-year': '© 2026 सर्वाधिकार सुरक्षित'
+            },
+            mr: {
+                'app-title': 'कृषिमित्र',
+                'app-subtitle': 'तुमचा शेती साथी',
+                'crop-title': 'पीक शिफारस',
+                'crop-desc': 'माती, हवामान आणि हंगामावर आधारित पीक सूचना',
+                'weather-title': 'हवामान अंदाज',
+                'weather-desc': '७ दिवसांचा हवामान अंदाज',
+                'fertilizer-title': 'खत मार्गदर्शक',
+                'fertilizer-desc': 'तुमच्या पिकांसाठी खत शिफारस',
+                'disease-title': 'रोग ओळख',
+                'disease-desc': 'पिकांच्या रोगांची ओळख आणि उपचार सल्ला',
+                'crop-modal-title': '🌱 पीक शिफारस',
+                'soil-type': 'मातीचा प्रकार',
+                'season': 'हंगाम',
+                'rainfall': 'सरासरी पाऊस (मिमी)',
+                'temperature': 'तापमान (°C)',
+                'get-recommendations': 'शिफारस मिळवा',
+                'weather-modal-title': '🌤️ हवामान अंदाज',
+                'location': 'तुमचे स्थान',
+                'get-weather': 'हवामान अंदाज मिळवा',
+                'fertilizer-modal-title': '🧪 खत मार्गदर्शक',
+                'crop-type': 'पिकाचा प्रकार',
+                'growth-stage': 'वाढीचा टप्पा',
+                'get-fertilizer': 'खत सल्ला मिळवा',
+                'disease-modal-title': '🔬 रोग ओळख',
+                'upload-text': 'पिकाचा फोटो अपलोड करा',
+                'crop-name': 'पिकाचे नाव (पर्यायी)',
+                'analyze-disease': 'रोग विश्लेषण करा',
+                'loading': 'हवामान डेटा लोड होत आहे...',
+                'analyzing': 'प्रतिमा विश्लेषण होत आहे...',
+                'footer-text': '🌾 कृषिमित्र - तंत्रज्ञानाद्वारे शेतकऱ्यांना सक्षम करणे',
+                'footer-year': '© 2026 सर्व हक्क राखीव'
+            },
+            ta: {
+                'app-title': 'கிருஷிமித்ரா',
+                'app-subtitle': 'உங்கள் விவசாய துணை',
+                'crop-title': 'பயிர் பரிந்துரை',
+                'crop-desc': 'மண், தட்பவெப்ப நிலை மற்றும் பருவத்தின் அடிப்படையில் பயிர் பரிந்துரைகள்',
+                'weather-title': 'வானிலை முன்னறிவிப்பு',
+                'weather-desc': '7 நாள் வானிலை கணிப்பு',
+                'fertilizer-title': 'உர வழிகாட்டி',
+                'fertilizer-desc': 'உங்கள் பயிர்களுக்கான உர பரிந்துரைகள்',
+                'disease-title': 'நோய் கண்டறிதல்',
+                'disease-desc': 'பயிர் நோய்களை அடையாளம் காணவும் சிகிச்சை ஆலோசனை பெறவும்',
+                'crop-modal-title': '🌱 பயிர் பரிந்துரை',
+                'soil-type': 'மண் வகை',
+                'season': 'பருவம்',
+                'rainfall': 'சராசரி மழை (மிமீ)',
+                'temperature': 'வெப்பநிலை (°C)',
+                'get-recommendations': 'பரிந்துரைகளைப் பெறுங்கள்',
+                'weather-modal-title': '🌤️ வானிலை முன்னறிவிப்பு',
+                'location': 'உங்கள் இடம்',
+                'get-weather': 'வானிலை முன்னறிவிப்பைப் பெறுங்கள்',
+                'fertilizer-modal-title': '🧪 உர வழிகாட்டி',
+                'crop-type': 'பயிர் வகை',
+                'growth-stage': 'வளர்ச்சி நிலை',
+                'get-fertilizer': 'உர ஆலோசனை பெறுங்கள்',
+                'disease-modal-title': '🔬 நோய் கண்டறிதல்',
+                'upload-text': 'பயிர் படத்தை பதிவேற்றவும்',
+                'crop-name': 'பயிர் பெயர் (விருப்பம்)',
+                'analyze-disease': 'நோய் பகுப்பாய்வு செய்யுங்கள்',
+                'loading': 'வானிலை தரவு ஏற்றப்படுகிறது...',
+                'analyzing': 'படம் பகுப்பாய்வு செய்யப்படுகிறது...',
+                'footer-text': '🌾 கிருஷிமித்ரா - தொழில்நுட்பத்துடன் விவசாயிகளுக்கு அதிகாரம் அளித்தல்',
+                'footer-year': '© 2026 அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை'
+            }
+        };
+
+        let currentLang = 'en';
+
+        // Language switching
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentLang = this.getAttribute('data-lang-code');
+                updateLanguage();
+            });
+        });
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-lang]').forEach(elem => {
+                const key = elem.getAttribute('data-lang');
+                if (translations[currentLang][key]) {
+                    if (elem.tagName === 'INPUT' || elem.tagName === 'BUTTON') {
+                        elem.placeholder = translations[currentLang][key];
+                    } else {
+                        elem.textContent = translations[currentLang][key];
+                    }
+                }
+            });
+        }
+
+        // Modal functionality
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const feature = this.getAttribute('data-feature');
+                openModal(feature + 'Modal');
+            });
+        });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // Crop Recommendation System
+        document.getElementById('cropForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const soilType = document.getElementById('soilType').value;
+            const season = document.getElementById('season').value;
+            const rainfall = document.getElementById('rainfall').value;
+            const temperature = document.getElementById('temperature').value;
+
+            const recommendations = getCropRecommendations(soilType, season, rainfall, temperature);
+            displayCropResults(recommendations);
+        });
+
+        function getCropRecommendations(soil, season, rainfall, temp) {
+            const crops = {
+                kharif: {
+                    clay: ['Rice', 'Cotton', 'Sugarcane', 'Maize'],
+                    sandy: ['Pearl Millet', 'Groundnut', 'Green Gram'],
+                    loamy: ['Rice', 'Maize', 'Soybean', 'Cotton'],
+                    black: ['Cotton', 'Soybean', 'Sunflower'],
+                    red: ['Groundnut', 'Millets', 'Pulses'],
+                    alluvial: ['Rice', 'Sugarcane', 'Jute']
+                },
+                rabi: {
+                    clay: ['Wheat', 'Gram', 'Mustard'],
+                    sandy: ['Wheat', 'Barley', 'Gram'],
+                    loamy: ['Wheat', 'Peas', 'Mustard', 'Potato'],
+                    black: ['Wheat', 'Gram', 'Sunflower'],
+                    red: ['Millets', 'Groundnut', 'Pulses'],
+                    alluvial: ['Wheat', 'Peas', 'Potato']
+                },
+                zaid: {
+                    clay: ['Watermelon', 'Cucumber', 'Vegetables'],
+                    sandy: ['Watermelon', 'Muskmelon', 'Cucumber'],
+                    loamy: ['Vegetables', 'Watermelon', 'Fodder crops'],
+                    black: ['Vegetables', 'Fodder crops'],
+                    red: ['Vegetables', 'Groundnut'],
+                    alluvial: ['Vegetables', 'Fodder crops', 'Watermelon']
+                }
+            };
+
+            const recommendedCrops = crops[season][soil] || ['Rice', 'Wheat', 'Maize'];
+            
+            return recommendedCrops.map(crop => ({
+                name: crop,
+                suitability: Math.floor(Math.random() * 20) + 80,
+                reason: `Suitable for ${soil} soil in ${season} season with ${rainfall}mm rainfall`
+            }));
+        }
+
+        function displayCropResults(recommendations) {
+            const resultsDiv = document.getElementById('cropResults');
+            let html = '<h3>🌾 Recommended Crops</h3>';
+            
+            recommendations.forEach(crop => {
+                html += `
+                    <div class="recommendation-item">
+                        <h4>${crop.name}</h4>
+                        <p><strong>Suitability Score:</strong> ${crop.suitability}%</p>
+                        <p>${crop.reason}</p>
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.add('active');
+        }
+
+        // Weather Forecast
+        document.getElementById('weatherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const location = document.getElementById('location').value;
+            const loading = document.getElementById('weatherLoading');
+            const results = document.getElementById('weatherResults');
+            
+            loading.classList.add('active');
+            results.classList.remove('active');
+            
+            setTimeout(() => {
+                loading.classList.remove('active');
+                displayWeatherResults(location);
+            }, 1500);
+        });
+
+        function displayWeatherResults(location) {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const conditions = ['☀️', '⛅', '🌤️', '🌧️', '⛈️'];
+            
+            let html = `<h3>Weather Forecast for ${location}</h3>`;
+            html += '<div class="weather-widget">';
+            
+            for (let i = 0; i < 7; i++) {
+                const temp = Math.floor(Math.random() * 15) + 20;
+                const condition = conditions[Math.floor(Math.random() * conditions.length)];
+                
+                html += `
+                    <div class="weather-day">
+                        <div><strong>${days[i]}</strong></div>
+                        <div class="weather-icon">${condition}</div>
+                        <div class="weather-temp">${temp}°C</div>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            html += `<div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 10px;">
+                <p><strong>Farming Advice:</strong> Good conditions for irrigation. Consider applying pesticides on dry days.</p>
+            </div>`;
+            
+            const resultsDiv = document.getElementById('weatherResults');
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.add('active');
+        }
+
+        // Fertilizer Recommendations
+        document.getElementById('fertilizerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cropType = document.getElementById('cropType').value;
+            const growthStage = document.getElementById('growthStage').value;
+            
+            displayFertilizerResults(cropType, growthStage);
+        });
+
+        function displayFertilizerResults(crop, stage) {
+            const fertilizers = {
+                rice: {
+                    planting: { N: 60, P: 30, K: 30, organic: 'Apply 10-15 tons/hectare FYM' },
+                    vegetative: { N: 40, P: 0, K: 0, organic: 'Apply neem cake' },
+                    flowering: { N: 20, P: 20, K: 20, organic: 'Foliar spray recommended' }
+                },
+                wheat: {
+                    planting: { N: 80, P: 40, K: 40, organic: 'Apply compost 5-7 tons/hectare' },
+                    vegetative: { N: 40, P: 0, K: 20, organic: 'Apply vermicompost' }
+                }
+            };
+
+            const data = fertilizers[crop]?.[stage] || { N: 40, P: 20, K: 20, organic: 'Apply organic manure' };
+            
+            let html = `<h3>🧪 Fertilizer Recommendations for ${crop}</h3>`;
+            html += `
+                <div class="recommendation-item">
+                    <h4>NPK Requirements (${stage} stage)</h4>
+                    <p><strong>Nitrogen (N):</strong> ${data.N} kg/hectare</p>
+                    <p><strong>Phosphorus (P):</strong> ${data.P} kg/hectare</p>
+                    <p><strong>Potassium (K):</strong> ${data.K} kg/hectare</p>
+                </div>
+                <div class="recommendation-item">
+                    <h4>Organic Options</h4>
+                    <p>${data.organic}</p>
+                </div>
+                <div class="recommendation-item">
+                    <h4>Application Tips</h4>
+                    <p>• Apply fertilizers in split doses for better absorption</p>
+                    <p>• Water the field immediately after fertilizer application</p>
+                    <p>• Avoid over-fertilization to prevent soil degradation</p>
+                </div>
+            `;
+            
+            const resultsDiv = document.getElementById('fertilizerResults');
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.add('active');
+        }
+
+        // Disease Detection
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('diseaseImage');
+        const previewImage = document.getElementById('previewImage');
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            handleImageUpload(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleImageUpload(file);
+        });
+
+        function handleImageUpload(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('diseaseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('diseaseLoading');
+            const results = document.getElementById('diseaseResults');
+            
+            loading.classList.add('active');
+            results.classList.remove('active');
+            
+            setTimeout(() => {
+                loading.classList.remove('active');
+                displayDiseaseResults();
+            }, 2000);
+        });
+
+        function displayDiseaseResults() {
+            const diseases = [
+                {
+                    name: 'Leaf Blight',
+                    confidence: 87,
+                    symptoms: 'Brown spots on leaves, yellowing around edges',
+                    treatment: 'Apply copper-based fungicide. Remove infected leaves.',
+                    prevention: 'Ensure proper spacing between plants. Avoid overhead watering.'
+                },
+                {
+                    name: 'Powdery Mildew',
+                    confidence: 72,
+                    symptoms: 'White powdery coating on leaves',
+                    treatment: 'Spray neem oil solution or sulfur-based fungicide',
+                    prevention: 'Improve air circulation. Water in the morning.'
+                }
+            ];
+
+            let html = '<h3>🔬 Disease Analysis Results</h3>';
+            
+            diseases.forEach(disease => {
+                html += `
+                    <div class="recommendation-item">
+                        <h4>${disease.name} (${disease.confidence}% match)</h4>
+                        <p><strong>Symptoms:</strong> ${disease.symptoms}</p>
+                        <p><strong>Treatment:</strong> ${disease.treatment}</p>
+                        <p><strong>Prevention:</strong> ${disease.prevention}</p>
+                    </div>
+                `;
+            });
+            
+            const resultsDiv = document.getElementById('diseaseResults');
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.add('active');
+        }
+    </script>
+</body>
+</html>
